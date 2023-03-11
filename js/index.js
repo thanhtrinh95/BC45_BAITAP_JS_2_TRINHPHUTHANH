@@ -73,16 +73,15 @@ document.getElementById('btnTienDien').onclick = function () {
     var tienDien = 0;
 
     if (soKw <= 50) {
-        tienDien += soKw * 500;
+        tienDien = soKw * 500;
     } else if (soKw > 50 && soKw <= 100) {
         tienDien = (500 + 650) * (soKw / 2);
-    } else if (soKw > 100 && soKw <= 150) {
-        tienDien += (500 + 650 +850) * soKw / 3;
-    } else if (soKw > 150 && soKw <= 200) {
-        tienDien = (500 + 650 +850 +1100)*soKw / 4;
-
-    } else if (soKw > 200) {
-        tienDien = ((soKw * 850) + (soKw * 650) + (soKw * 500) + (soKw * 1100) + (soKw * 1300)) / 5;
+    } else if (soKw > 100 && soKw <= 200) {
+        tienDien = 50 * 500 + 50 * 650 + (soKw - 100) * 850
+    } else if (soKw > 200 && soKw <= 350) {
+        tienDien = 50 * 500 + 50 * 650 + 100 * 850 + (soKw - 200) * 1100
+    } else if (soKw > 350) {
+        tienDien = 50 * 500 + 50 * 650 + 100 * 850 + 150 * 1100 + (soKw - 350) * 1300;
     }
 
     document.getElementById('ket-qua-bai-2').innerHTML = `
@@ -100,81 +99,79 @@ document.getElementById('btnTinhThue').onclick = function () {
     var soNguoi = +document.getElementById('songphuthuoc').value;
     var vndFormat = new Intl.NumberFormat('it-IT');
     var tongThue = 0;
-var result;
-    tongThue = tongThuNhap - 4e+6 - (soNguoi * 1.6e+6); 
-    console.log("🚀 ~ file: index.js:105 ~ tongThue:", tongThue)
-    debugger
+    var result;
+    tongThue = tongThuNhap - 4e+6 - (soNguoi * 1.6e+6);
     if (tongThue <= 60e+6) {
         result = tongThue * 0.05;
         ///
     } else if (tongThue > 60e+6 && tongThue <= 120e+6) {
-        result =tongThue *0.1;
+        result = tongThue * 0.1;
         //
     } else if (tongThue > 120e+6 && tongThue <= 210e+6) {
         result = tongThue * 0.15;
-//
+        //
     } else if (tongThue > 210e+6 && tongThue <= 384e+6) {
         result = tongThue * 0.2;
 
     } else if (tongThue > 384e+6 && tongThue <= 624e+6) {
         result = tongThue * 0.25;
     } else if (tongThue > 624e+6 && tongThue <= 960e+6) {
-        result = tongThue*0.3;
+        result = tongThue * 0.3;
     } else if (tongThue > 960e+6) {
-        result = tongThue*0.35;
+        result = tongThue * 0.35;
     }
 
 
     document.getElementById('ket-qua-bai-3').innerHTML = `
         Họ và Tên là : ${ten} <br>
         Tiền Thuế thu nhập cá nhân là : ${vndFormat.format(result)}VNĐ
-   ` 
+   `
 }
 
-function dropdownKetNoi(){
+function dropdownKetNoi() {
     var selected = document.getElementById('loaikh').value;
-    if(selected === "2") {
+    if (selected === "2") {
         document.getElementById('soKetnoi').classList.remove('hidden')
-    }else {
+    } else {
         document.getElementById('soKetnoi').classList.add('hidden')
 
     }
 }
 
-function tinhTienCapNd(sokenh){
+function tinhTienCapNd(sokenh) {
     var phiXL = 4.5;
     var phiDV = 20.5;
-    var phiKenh = sokenh *7.5;
-    
+    var phiKenh = sokenh * 7.5;
+
     return phiXL + phiDV + phiKenh;
 }
 
-function tinhTienCapDN(sokenh,soketnoi){
+function tinhTienCapDN(sokenh, soketnoi) {
     var phiXL = 15;
     var phiketnoi = 0;
-    var phiKenh = sokenh *50;
-    var sokn = soketnoi - 10 ;
+    var phiKenh = sokenh * 50;
+    var sokn = soketnoi - 10;
     var phiDV = 75;
-    if(sokn > 0){
-        phiketnoi = phiDV + sokn * 5 ;
-    }else {
+    if (sokn > 0) {
+        phiketnoi = phiDV + sokn * 5;
+    } else {
         phiketnoi = phiDV;
     }
 
     return phiXL + phiketnoi + phiKenh;
 }
 
-document.getElementById('btnTinhCap').onclick = function(){
+document.getElementById('btnTinhCap').onclick = function () {
     var loaiKH = document.getElementById('loaikh').value;
     var maKH = document.getElementById('makh').value;
     var soKenh = document.getElementById('sokenh').value;
     var soketNoi = document.getElementById('soKetnoi').value;
     var tienCap = 0;
 
-    if(loaiKH === '1'){
-     tienCap =  tinhTienCapNd(soKenh);
+    if (loaiKH === '1') {
+        tienCap = tinhTienCapNd(soKenh);
     } else {
-        tienCap = tinhTienCapDN(soKenh,soketNoi);
+        tienCap = tinhTienCapDN(soKenh, soketNoi);
     }
 
     document.getElementById('ket-qua-bai-4').innerHTML = ` Mã Khách hàng là : ${maKH} 
